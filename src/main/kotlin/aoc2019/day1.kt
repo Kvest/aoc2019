@@ -13,27 +13,21 @@ fun main() {
 fun day1_1(params: List<String>): Int {
     return params
         .asSequence()
-        .map {
-            it.toInt()
-        }
-        .map {
-            (it / 3) - 2
-        }
+        .map(String::toInt)
+        .map(::countFuel)
         .sum()
 }
 
 fun day1_2(params: List<String>): Int {
     return params
         .asSequence()
+        .map(String::toInt)
         .map {
-            it.toInt()
-        }
-        .map {
-            var current = (it / 3) - 2
+            var current = countFuel(it)
             var total = current
 
             while(current > 0) {
-                current = (current / 3) - 2
+                current = countFuel(current)
                 if (current > 0) {
                     total += current
                 }
@@ -43,3 +37,5 @@ fun day1_2(params: List<String>): Int {
         }
         .sum()
 }
+
+private fun countFuel(mass: Int): Int = (mass / 3) - 2
