@@ -42,7 +42,7 @@ fun calcAmplifierOutput(memory: IntArray, order: IntArray): Int {
 
         intcode.process()
 
-        output = intcode.getOutput()
+        output = intcode.getOutput().toInt()
     }
 
     return output
@@ -62,7 +62,7 @@ fun calcLoopedAmplifierOutput(memory: IntArray, order: IntArray): Int {
             intcode.process()
 
             if (intcode.isHalted() && index == intcodes.size - 1) {
-                result = intcode.getOutput()
+                result = intcode.getOutput().toInt()
             } else {
                 val next = (index + 1) % intcodes.size
                 intcodes[next].addInput(intcode.getOutput())
