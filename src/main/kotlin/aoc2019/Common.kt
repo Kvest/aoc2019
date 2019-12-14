@@ -2,7 +2,18 @@ package aoc2019
 
 import kotlin.math.absoluteValue
 
-data class XY(val x: Int, val y: Int)
+data class XY private constructor(val x: Int, val y: Int) {
+    companion object {
+        private val cash = mutableMapOf<Int, MutableMap<Int, XY>>()
+
+        //Avoid allocations of the huge amount of the XY items
+        operator fun invoke(x: Int, y: Int): XY {
+            val rowsCash = cash.getOrPut(x) { mutableMapOf() }
+            return rowsCash.getOrPut(y) { XY(x, y) }
+        }
+    }
+}
+
 data class XYZ(val x: Int, val y: Int, val z: Int)
 
 fun IntArray.permute(onNextPermutation: (IntArray) -> Unit) = permute(this, 0, this.size, onNextPermutation)

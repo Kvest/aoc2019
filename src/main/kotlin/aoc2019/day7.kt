@@ -4,13 +4,13 @@ import java.io.File
 import kotlin.math.max
 
 fun main() {
-    val prog = File("./data/day7.txt").readText().split(",").map { it.toInt() }
+    val prog = File("./data/day7.txt").readText().split(",")
 
-    day7_1(prog.toIntArray())
-    day7_2(prog.toIntArray())
+    day7_1(prog)
+    day7_2(prog)
 }
 
-private fun day7_1(prog: IntArray) {
+private fun day7_1(prog: List<String>) {
     val order = intArrayOf(0, 1, 2, 3, 4)
 
     var maxSignal = Int.MIN_VALUE
@@ -21,7 +21,7 @@ private fun day7_1(prog: IntArray) {
     println(maxSignal)
 }
 
-private fun day7_2(prog: IntArray) {
+private fun day7_2(prog: List<String>) {
     val order = intArrayOf(5, 6, 7, 8, 9)
     var maxSignal = Int.MIN_VALUE
     order.permute {
@@ -31,11 +31,11 @@ private fun day7_2(prog: IntArray) {
     println(maxSignal)
 }
 
-fun calcAmplifierOutput(memory: IntArray, order: IntArray): Int {
+fun calcAmplifierOutput(memory: List<String>, order: IntArray): Int {
     var output = 0
 
     order.forEach { index ->
-        val intcode = Intcode(memory.copyOf()).also {
+        val intcode = Intcode(memory).also {
             it.addInput(index)
             it.addInput(output)
         }
@@ -48,9 +48,9 @@ fun calcAmplifierOutput(memory: IntArray, order: IntArray): Int {
     return output
 }
 
-fun calcLoopedAmplifierOutput(memory: IntArray, order: IntArray): Int {
+fun calcLoopedAmplifierOutput(memory: List<String>, order: IntArray): Int {
     val intcodes = order.map {
-        Intcode(memory.copyOf()).apply {
+        Intcode(memory).apply {
             addInput(it)
         }
     }

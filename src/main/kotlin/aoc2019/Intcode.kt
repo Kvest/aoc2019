@@ -6,7 +6,7 @@ import java.util.*
 
 private val HALT = BigInteger("99")
 
-class Intcode(initialMemory: IntArray) {
+class Intcode(initialMemory: List<String>) {
     private val memory = mutableMapOf<Int, BigInteger>()
     private val input: Queue<BigInteger> = LinkedList<BigInteger>()
     private val output: Queue<BigInteger> = LinkedList<BigInteger>()

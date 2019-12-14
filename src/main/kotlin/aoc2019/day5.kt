@@ -9,9 +9,7 @@ fun main() {
 
 private fun day5_1(params: List<String>) {
     println("part1===================")
-    val memory = IntArray(params.size) { params[it].toInt() }
-
-    val incode = Intcode(memory).also {
+    val incode = Intcode(params).also {
         it.addInput(1)
     }
     incode.process()
@@ -25,9 +23,7 @@ private fun day5_1(params: List<String>) {
 
 private fun day5_2(params: List<String>) {
     println("part2===================")
-    val memory = IntArray(params.size) { params[it].toInt() }
-
-    val incode = Intcode(memory).also {
+    val incode = Intcode(params).also {
         it.addInput(5)
     }
     incode.process()
