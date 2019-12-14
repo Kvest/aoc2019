@@ -1,9 +1,37 @@
 package aoc2019
 
+import kotlin.math.absoluteValue
+
 data class XY(val x: Int, val y: Int)
 data class XYZ(val x: Int, val y: Int, val z: Int)
 
 fun IntArray.permute(onNextPermutation: (IntArray) -> Unit) = permute(this, 0, this.size, onNextPermutation)
+
+fun Int.gcd(other : Int): Int {
+    var n1 = this.absoluteValue
+    var n2 = other.absoluteValue
+
+    if (n1 == 0 && n2 == 0) {
+        return 1
+    }
+
+    if (n1 == 0) {
+        return n2
+    }
+
+    if (n2 == 0) {
+        return n1
+    }
+
+    while (n1 != n2) {
+        if (n1 > n2)
+            n1 -= n2
+        else
+            n2 -= n1
+    }
+
+    return n1
+}
 
 private fun IntArray.swap(i: Int, j : Int) {
     val tmp = this[i]
