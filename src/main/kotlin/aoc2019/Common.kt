@@ -12,6 +12,13 @@ data class XY private constructor(val x: Int, val y: Int) {
             return rowsCash.getOrPut(y) { XY(x, y) }
         }
     }
+
+    fun neighbors(action: (XY) -> Unit) {
+        action(XY(x + 1, y))
+        action(XY(x , y + 1))
+        action(XY(x - 1, y))
+        action(XY(x, y - 1))
+    }
 }
 
 data class XYZ(val x: Int, val y: Int, val z: Int)
