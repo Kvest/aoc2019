@@ -2,7 +2,6 @@ package aoc2019
 
 import java.io.File
 import java.lang.IllegalStateException
-import java.math.BigInteger
 
 fun main() {
     val rules = File("./data/day14.txt").readLines()
@@ -16,51 +15,59 @@ fun main() {
 
 private const val FUEL = "FUEL"
 private const val SRC = "ORE"
-private val MAX_SRC = BigInteger("1000000000000")
+private val MAX_SRC = 1000000000000L
 
-fun day14_1(rulesStr: List<String>): Int {
+fun day14_1(rulesStr: List<String>): Long {
     val rules = parseRules(rulesStr)
 
-    return calc(rules, mutableMapOf())
+    return calc(rules, 1L)
 }
 
-fun day14_2(rulesStr: List<String>): Int {
+fun day14_2(rulesStr: List<String>): Long {
     val rules = parseRules(rulesStr)
-    val reserve = mutableMapOf<String, Int>()
 
-    var remain = MAX_SRC
-    var fuel = 0
+    var a = 0L
+    var b = Int.MAX_VALUE.toLong()
 
-    do {
-        val used = calc(rules, reserve).toBigInteger()
-        if (used <= remain) {
-            fuel++
+    //if b is still not enough
+    while (calc(rules, b) < MAX_SRC) {
+        a = b
+        b *= 2
+    }
+
+    //use binary search
+    while ((b - a) > 1) {
+        val middle = a + (b - a) / 2
+        if (calc(rules, middle) > MAX_SRC) {
+            b = middle
+        } else {
+            a = middle
         }
-        remain -= used
-    } while(remain > BigInteger.ZERO)
+    }
 
-    return fuel
+    return a
 }
 
 private fun parseRules(rulesStr: List<String>): Map<String, Rule> {
     return rulesStr.associate { ruleStr ->
         val itemsStr = ruleStr.substringBefore("=>").trim().split(",").map(String::trim)
         val items = itemsStr.map { itemStr ->
-            Item(itemStr.substringAfter(" ").trim(), itemStr.substringBefore(" ").trim().toInt())
+            Item(itemStr.substringAfter(" ").trim(), itemStr.substringBefore(" ").trim().toLong())
         }
 
         val res = ruleStr.substringAfter("=>").trim()
         val name = res.substringAfter(" ").trim()
-        val count = res.substringBefore(" ").trim().toInt()
+        val count = res.substringBefore(" ").trim().toLong()
 
         name to Rule(count, items)
     }
 }
 
-private fun calc(rules: Map<String, Rule>, reserve: MutableMap<String, Int>): Int {
-    var srcCount = 0
-    val produce = mutableMapOf<String, Int>()
-    produce[FUEL] = 1
+private fun calc(rules: Map<String, Rule>, count: Long): Long {
+    var srcCount = 0L
+    val produce = mutableMapOf<String, Long>()
+    val reserve = mutableMapOf<String, Long>()
+    produce[FUEL] = count
 
     while(produce.isNotEmpty()) {
         val itemName = produce.keys.first()
@@ -105,5 +112,5 @@ private fun calc(rules: Map<String, Rule>, reserve: MutableMap<String, Int>): In
     return srcCount
 }
 
-private data class Item(val name: String, val count: Int)
-private data class Rule(val count: Int, val items: List<Item>)
+private data class Item(val name: String, val count: Long)
+private data class Rule(val count: Long, val items: List<Item>)

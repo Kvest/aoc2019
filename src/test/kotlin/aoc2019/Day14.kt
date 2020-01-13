@@ -124,7 +124,6 @@ class Day14 {
             )
         )
 
-
         assertEquals(
             460664,
             day14_2(
