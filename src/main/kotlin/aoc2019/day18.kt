@@ -19,8 +19,8 @@ fun main() {
 
 private const val KEY_START = 'a'.toInt()
 private const val KEY_COUNT = 'z'.toInt() - KEY_START + 1
-fun Char.toKeyIndex() = this.toInt() - KEY_START
-fun Int.toKey() = (this + KEY_START).toChar()
+private fun Char.toKeyIndex() = this.toInt() - KEY_START
+private fun Int.toKey() = (this + KEY_START).toChar()
 /**
  * Method return the list of the keys, that can be taken now
  */
