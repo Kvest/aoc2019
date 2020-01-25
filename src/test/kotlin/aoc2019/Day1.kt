@@ -15,5 +15,10 @@ class Day1 {
         val result = aoc2019.day1_2(listOf("12", "14", "1969", "100756"))
         assertEquals(2 + 2 + 966 + 50346, result)
     }
+
+    @Test
+    fun testFail() {
+        assertEquals(2 + 2, 5)
+    }
 }
 
